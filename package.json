@@ -1,0 +1,17 @@
+{
+  "name": "moon-server",
+  "version": "0.0.1",
+  "description": "Simple But Powerful Node.js HTTP Server",
+  "keywords": ["web", "app", "http", "framework"],
+  "homepage": "https://github.com/anjianshi/moon-server",
+  "bugs": {
+    "url": "https://github.com/anjianshi/moon-server/issues",
+    "email": "anjianshi@gmail.com"
+  },
+  "license": "MIT",
+  "author": "anjianshi <anjianshi@gmail.com>",
+  "repository": "github:anjianshi/moon-server",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  }
+}
