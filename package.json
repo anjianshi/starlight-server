@@ -2,16 +2,40 @@
   "name": "moon-server",
   "version": "0.0.1",
   "description": "Simple But Powerful Node.js HTTP Server",
-  "keywords": ["web", "app", "http", "framework"],
+  "type": "module",
+  "scripts": {
+    "watch": "rimraf dist && tsc && (concurrently \"tsc -w\" \"tsc-alias -w\")",
+    "build": "rimraf dist && tsc && tsc-alias",
+    "demo": "node dist/demo/index.js",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "web",
+    "app",
+    "http",
+    "framework"
+  ],
   "homepage": "https://github.com/anjianshi/moon-server",
   "bugs": {
     "url": "https://github.com/anjianshi/moon-server/issues",
     "email": "anjianshi@gmail.com"
   },
+  "files": [
+    "src/",
+    "dist/"
+  ],
   "license": "MIT",
   "author": "anjianshi <anjianshi@gmail.com>",
   "repository": "github:anjianshi/moon-server",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
+  },
+  "devDependencies": {
+    "@anjianshi/presets": "^1.0.0",
+    "concurrently": "^7.6.0",
+    "eslint": "^8.35.0",
+    "rimraf": "^4.3.0",
+    "tsc-alias": "^1.8.2",
+    "typescript": "^4.9.5"
   }
 }
