@@ -1,3 +1,6 @@
 {
-  "extends": "@anjianshi/presets/tsconfig-build.json"
+  "extends": "@anjianshi/presets/tsconfig-build.json",
+  "compilerOptions": {
+    "removeComments": false
+  }
 }

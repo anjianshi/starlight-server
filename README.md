@@ -1,2 +1,1 @@
-# Moon Server: Simple But Powerful Node.js HTTP Server
-
+# Starlight Server: Simple But Powerful Node.js HTTP Server
