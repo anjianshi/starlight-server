@@ -21,7 +21,7 @@ export interface Parameter {
   name: string
 
   /** 文字描述  */
-  describe?: string
+  description?: string
 
   type: ParameterDataType
 
@@ -40,7 +40,10 @@ export interface Parameter {
 
 export type BasicDataType = 'string' | 'number' | 'boolean'
 
-type BasicParameter = Pick<Parameter, 'type' | 'validate' | 'required' | 'nullable' | 'defaults'>
+export type BasicParameter = Pick<
+  Parameter,
+  'type' | 'validate' | 'required' | 'nullable' | 'defaults' | 'description'
+>
 
 /**
  * 请求参数的数据类型定义

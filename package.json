@@ -1,12 +1,11 @@
 {
   "name": "starlight-server",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Simple But Powerful Node.js HTTP Server",
   "type": "module",
   "scripts": {
-    "watch": "rimraf dist && tsc && (concurrently \"tsc -w\" \"tsc-alias -w\")",
+    "dev": "npm run build && (concurrently \"tsc -w\" \"tsc-alias -w\" \"nodemon dist/demo/index.js\")",
     "build": "rimraf dist && tsc && tsc-alias",
-    "demo": "node dist/demo/index.js",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -45,6 +44,7 @@
     "@types/swagger-ui-dist": "^3.30.4",
     "concurrently": "^8.2.1",
     "eslint": "^8.54.0",
+    "nodemon": "^3.0.2",
     "rimraf": "^4.3.0",
     "tsc-alias": "^1.8.8",
     "typescript": "^5.3.2"

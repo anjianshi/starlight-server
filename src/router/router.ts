@@ -38,7 +38,7 @@ export type RouteHandler<
 export type Route<
   Ctx extends BaseContext = BaseContext,
   PathP extends PathParameters = PathParameters,
-> = RequiredFields<RawRoute<Ctx, PathP>, 'describe' | 'category' | 'method'>
+> = RequiredFields<RawRoute<Ctx, PathP>, 'description' | 'category' | 'method'>
 
 export interface RawRoute<
   Ctx extends BaseContext = BaseContext,
@@ -48,7 +48,7 @@ export interface RawRoute<
   path: string
 
   /** 接口描述  */
-  describe?: string
+  description?: string
 
   /** 接口类别 */
   category?: string
@@ -96,7 +96,7 @@ export interface ResponseObjectItemType {
   name: string
 
   /** 文字描述  */
-  describe?: string
+  description?: string
 
   /** 值类型。ResponseDataType[] 代表有多种可能的类型 */
   type: ResponseDataType | ResponseDataType[]
@@ -131,7 +131,7 @@ export abstract class Router<Ctx extends BaseContext = BaseContext> {
     const rawRoute: RawRoute<Ctx, PathParameters & P> =
       typeof raw === 'string' ? { method: raw, path: path!, handler: handler! } : raw
     const route: Route<Ctx, PathParameters & P> = {
-      describe: '',
+      description: '',
       category: '',
       ...rawRoute,
       method: (rawRoute.method ?? (rawRoute.body ? 'POST' : 'GET')).toUpperCase(),

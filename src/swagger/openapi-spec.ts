@@ -149,7 +149,7 @@ export interface Responses extends Extendable {
 }
 
 export interface Response extends Extendable {
-  descriptoin: CommonMark
+  description: CommonMark
   headers?: Record<string, Header | Reference>
   content?: Record<string, MediaType>
   links?: Record<string, Link | Reference>
@@ -185,8 +185,8 @@ export interface Tag extends Extendable {
 
 export interface Reference {
   $ref: string
-  summary: string
-  description: string
+  summary?: string
+  description?: string
 }
 
 export interface Schema extends Extendable {

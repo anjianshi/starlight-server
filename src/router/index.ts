@@ -35,4 +35,4 @@
  */
 export * from './router.js'
 export { type PathParameters } from './match.js'
-export type { BasicDataType, Parameter, ParameterDataType } from './parameters.js'
+export type { BasicDataType, Parameter, BasicParameter, ParameterDataType } from './parameters.js'
