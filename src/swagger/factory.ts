@@ -1,7 +1,7 @@
 /**
  * 把路由定义转换成 swagger API 定义的工具函数
  */
-import type { Route, ResponseDataType, BasicParameter } from '@/router/index.js'
+import type { RouteDefinition, ResponseDataType, BasicParameter } from '@/router/index.js'
 import type { Schema, Reference, PathItem } from './openapi-spec.js'
 
 type AnyObject = { [k: string]: unknown }
@@ -111,7 +111,7 @@ export function jsonMedia(schema: string | Schema) {
 /**
  * 把一系列路由转换成 swagger API 定义
  */
-export function paths(routes: Route[]) {
+export function paths(routes: RouteDefinition[]) {
   const paths: Record<string, PathItem> = {}
 
   for (const route of routes) {
@@ -129,7 +129,7 @@ export function paths(routes: Route[]) {
 /**
  * 单个路由定义
  */
-export function operation(route: Route) {
+export function operation(route: RouteDefinition) {
   return {
     tags: route.category ? [route.category] : [],
     summary: route.description,
@@ -147,14 +147,14 @@ export function operation(route: Route) {
 /**
  * 生成路由的唯一 ID
  */
-export function operationId(route: Route) {
+export function operationId(route: RouteDefinition) {
   return `${route.method}-${route.path}`
 }
 
 /**
  * 路由请求参数转为 swagger 定义
  */
-export function requestBody(route: Route) {
+export function requestBody(route: RouteDefinition) {
   if (!route.body) return
   return jsonMedia({
     type: 'object',

@@ -39,6 +39,7 @@ export type Route<
   Ctx extends BaseContext = BaseContext,
   PathP extends PathParameters = PathParameters,
 > = RequiredFields<RawRoute<Ctx, PathP>, 'description' | 'category' | 'method'>
+export type RouteDefinition = Omit<Route, 'handler'> // 仅含定义，不含实现
 
 export interface RawRoute<
   Ctx extends BaseContext = BaseContext,
