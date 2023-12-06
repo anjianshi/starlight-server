@@ -7,8 +7,8 @@ import { normalizePath } from '@/router/match.js'
 import * as factory from './factory.js'
 import type { OpenAPI } from './openapi-spec.js'
 
-export function registerSwaggerRoute(
-  router: Router,
+export function registerSwaggerRoute<Ctx extends BaseContext>(
+  router: Router<Ctx>,
   endpoint: string = '/swagger',
   customFields: OpenAPICustomFields = { info: { title: 'API Document', version: '0.0.1' } },
   swaggerOptions?: Record<string, unknown>,
@@ -23,7 +23,7 @@ export function registerSwaggerRoute(
     category: 'swagger',
     method: 'GET',
     path: normalizePath(endpoint) + '/api-swagger.json',
-    handler: apiRoute.bind(null, router, customFields),
+    handler: (context: Ctx) => apiRoute(router, customFields, context),
   })
 }
 
@@ -76,7 +76,11 @@ function replacement(abspath: string, content: Buffer, swaggerOptions?: Record<s
  */
 type OpenAPICustomFields = Omit<OpenAPI, 'openapi' | 'paths' | 'components'>
 
-function apiRoute(router: Router, customFields: OpenAPICustomFields, { response }: BaseContext) {
+function apiRoute<Ctx extends BaseContext>(
+  router: Router<Ctx>,
+  customFields: OpenAPICustomFields,
+  { response }: BaseContext,
+) {
   const swaggerJSON: OpenAPI = {
     ...customFields,
     openapi: '3.1.0',

@@ -1,6 +1,13 @@
 import path from 'node:path'
 import { getFileDir } from '@anjianshi/utils/env-node/index.js'
-import { getLogger, startHTTPServer, DefaultRouter } from '@/index.js'
+import {
+  getLogger,
+  startHTTPServer,
+  type BaseContext,
+  type Route,
+  type PathParameters,
+  Router,
+} from '@/index.js'
 import { registerSwaggerRoute } from '@/swagger/index.js'
 
 const logger = getLogger({
@@ -11,7 +18,23 @@ const logger = getLogger({
   },
 })
 
-const router = new DefaultRouter()
+type DemoContext = BaseContext & {
+  now: () => number
+}
+class DemoRouter extends Router<DemoContext> {
+  async executeWithContext(
+    baseContext: BaseContext,
+    route: Route<DemoContext>,
+    pathParameters: PathParameters,
+  ) {
+    const context: DemoContext = {
+      ...baseContext,
+      now: () => Date.now(),
+    }
+    await route.handler(context, pathParameters)
+  }
+}
+const router = new DemoRouter()
 
 router.registerResponseReference('hello', { object: [{ name: 'hello', type: 'string' }] })
 
