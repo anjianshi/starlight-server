@@ -82,7 +82,7 @@ function getValidatorOfParameter(parameter: BasicParameter) {
     const validatorConstructor = getValidatorConstructor(parameter.type) as typeof validators.any
     const options = {
       null: parameter.nullable,
-      void: typeof parameter.required === 'boolean' ? parameter.required : undefined,
+      void: typeof parameter.required === 'boolean' ? !parameter.required : undefined,
       defaults: parameter.defaults,
       ...(parameter.validate ?? {}),
     }
