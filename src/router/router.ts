@@ -179,7 +179,7 @@ export abstract class Router<Ctx extends BaseContext = BaseContext> {
    * 为未指定 CORS 配置的 route 提供默认配置
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getCORSOptions(request: Request, routeMatch: RouteMatch<Route<Ctx>>) {
+  getCORSOptions(request: Request, routeMatch: RouteMatch<Route<Ctx>>): CORSOptions {
     return false
   }
 

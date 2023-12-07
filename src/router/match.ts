@@ -13,16 +13,16 @@ import escapeRegExp from 'lodash/escapeRegExp.js'
 
 /**
  * 标准化路径
- * 标准化后，相同的两个路径一定也是相同的字符串（例如 /Abc/Def 和 abc/def/ 都会变成 abc/def）。
+ * 移除首尾和重复的 '/'，完成后有 path 有这几种可能的格式： ''、'abc'、'abc/def'
+ * 例如 /abc/def 和 abc/def/ 都会变成 abc/def
  *
- * - 移除首尾和重复的 '/'，完成后有 path 有这几种可能的格式： ''、'abc'、'abc/def'
- * - 统一改为小写
+ * 注意：此操作不会统一大小写，因此不保证标准化后两个字符串在代码层面 ===
  */
 export function normalizePath(path: string) {
   if (path.startsWith('/')) path = path.slice(1)
   if (path.endsWith('/')) path = path.slice(0, -1)
   path = path.replace(/\/+/g, '/')
-  return path.toLowerCase()
+  return path
 }
 
 /**
