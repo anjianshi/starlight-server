@@ -43,6 +43,10 @@ router.register({
   description: 'hello world',
   method: 'GET',
   path: '/hello',
+  query: [
+    { name: 'q1', type: 'number', required: true },
+    { name: 'q2', type: 'string', description: '这是q2' },
+  ],
   body: [
     { name: 'abc', type: 'number' },
     { name: 'def', type: { array: { type: 'string' } } },

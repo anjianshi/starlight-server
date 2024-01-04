@@ -191,7 +191,7 @@ export abstract class Router<Ctx extends BaseContext = BaseContext> {
     baseContext: BaseContext,
     route: Route<Ctx>,
     pathParameters: PathParameters,
-  ): void | Promise<void>
+  ): unknown
 
   /**
    * response 定义中可引用的数据类型

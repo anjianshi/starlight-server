@@ -134,6 +134,7 @@ export function operation(route: RouteDefinition) {
     tags: route.category ? [route.category] : [],
     summary: route.description,
     operationId: operationId(route),
+    parameters: queryParameters(route),
     requestBody: requestBody(route),
     responses: {
       default: {
@@ -152,7 +153,21 @@ export function operationId(route: RouteDefinition) {
 }
 
 /**
- * 路由请求参数转为 swagger 定义
+ * 路由 query 参数转为 swagger 定义
+ */
+export function queryParameters(route: RouteDefinition) {
+  if (!route.query) return
+  return route.query.map(parameter => ({
+    name: parameter.name,
+    in: 'query' as const,
+    description: parameter.description,
+    required: parameter.required,
+    schema: parameterSchema(parameter),
+  }))
+}
+
+/**
+ * 路由 body 参数转为 swagger 定义
  */
 export function requestBody(route: RouteDefinition) {
   if (!route.body) return

@@ -1,10 +1,10 @@
 {
   "name": "starlight-server",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "description": "Simple But Powerful Node.js HTTP Server",
   "type": "module",
   "scripts": {
-    "dev": "npm run build && (concurrently \"tsc -w\" \"tsc-alias -w\" \"nodemon dist/demo/index.js\")",
+    "dev": "rimraf dist && (concurrently --raw \"tsc -w\" \"sleep 5 && tsc-alias -w\" \"sleep 6 && nodemon dist/demo/index.js\")",
     "build": "rimraf dist && tsc && tsc-alias",
     "prepublishOnly": "npm run build"
   },

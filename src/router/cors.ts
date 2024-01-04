@@ -15,7 +15,7 @@ export type CORSOptions =
   | { allowOrigin?: string; allowHeaders?: string; exposeHeaders?: string }
 
 /**
- * 若当前请求是 CORS Preflight 请求，返回实际请求的 method，否则返回 null
+ * 若当前请求是 CORS Preflight 请求，返回实际请求的 method；若不是 Preflight 请求，返回 null
  */
 export function getMethodFromCORSPreflight(request: Request) {
   if (
