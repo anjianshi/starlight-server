@@ -25,7 +25,7 @@ class DemoRouter extends Router<DemoContext> {
   async executeWithContext(
     baseContext: BaseContext,
     route: Route<DemoContext>,
-    pathParameters: PathParameters,
+    pathParameters: PathParameters
   ) {
     const context: DemoContext = {
       ...baseContext,

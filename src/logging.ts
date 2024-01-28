@@ -10,13 +10,14 @@ import {
 import debug from 'debug'
 
 export type { FileHandlerOptions }
+export { Logger, LogLevel }
 
 export interface LoggingOptions {
   /**
    * 指定日志等级（debug info warn err）
    * Specify log level.
    */
-  level?: string
+  level?: string | LogLevel
 
   /**
    * 文件日志参数
@@ -31,27 +32,12 @@ export interface LoggingOptions {
   debugLib?: boolean | string
 }
 
-const levelMap: Record<string, LogLevel> = {
-  debug: LogLevel.Debug,
-  info: LogLevel.Info,
-  warn: LogLevel.Warning,
-  warning: LogLevel.Warning,
-  err: LogLevel.Error,
-  error: LogLevel.Error,
-}
-
 export function getLogger(options: LoggingOptions = {}) {
   const logger = new Logger()
   logger.addHandler(new ConsoleHandler())
-  if (options.level !== undefined) {
-    const level = levelMap[options.level.toLowerCase()]
-    if (level !== undefined) logger.setLevel(level)
-  }
-  if (options.file) {
-    logger.addHandler(new FileHandler(options.file))
-  }
-  if (truthy(options.debugLib)) {
-    void adaptDebugLib(debug, options.debugLib === true ? '*' : options.debugLib, logger)
-  }
+  if (options.level !== undefined) logger.setLevel(options.level)
+  if (options.file) logger.addHandler(new FileHandler(options.file))
+  if (truthy(options.debugLib))
+    adaptDebugLib(debug, options.debugLib === true ? '*' : options.debugLib, logger)
   return logger
 }

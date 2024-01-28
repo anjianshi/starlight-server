@@ -30,25 +30,25 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@anjianshi/utils": "^1.0.9",
+    "@anjianshi/utils": "^1.2.6",
     "chalk": "^5.3.0",
     "debug": "^4.3.4",
-    "lodash": "^4.17.21",
     "swagger-ui-dist": "^5.10.3"
   },
   "devDependencies": {
-    "@anjianshi/presets": "^1.4.0",
+    "@anjianshi/presets-eslint-node": "^1.0.3",
+    "@anjianshi/presets-eslint-typescript": "^1.0.3",
+    "@anjianshi/presets-prettier": "^1.0.0",
+    "@anjianshi/presets-typescript": "^1.0.1",
     "@types/debug": "^4.1.9",
     "@types/lodash": "^4.14.199",
     "@types/node": "^20.8.6",
     "@types/swagger-ui-dist": "^3.30.4",
     "concurrently": "^8.2.1",
-    "eslint": "^8.54.0",
     "nodemon": "^3.0.2",
     "rimraf": "^4.3.0",
-    "tsc-alias": "^1.8.8",
-    "typescript": "^5.3.2"
+    "tsc-alias": "^1.8.8"
   },
   "eslintIgnore": [],
-  "prettier": "@anjianshi/presets/prettierrc"
+  "prettier": "@anjianshi/presets-prettier/prettierrc"
 }

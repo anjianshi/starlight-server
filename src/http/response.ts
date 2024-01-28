@@ -7,10 +7,7 @@ import { HTTPError, type NodeResponse } from './types.js'
  * Encapsulate functions for outputting response content.
  */
 export class ResponseUtils {
-  constructor(
-    readonly nodeResponse: NodeResponse,
-    readonly logger: Logger,
-  ) {}
+  constructor(readonly nodeResponse: NodeResponse, readonly logger: Logger) {}
 
   header(name: string, value: string) {
     this.nodeResponse.setHeader(name, value)
@@ -26,7 +23,7 @@ export class ResponseUtils {
   cors(allowOrigin = '*', allowHeaders = '*') {
     this.headers(
       ['Access-Control-Allow-Origin', allowOrigin],
-      ['Access-Control-Allow-Headers', allowHeaders],
+      ['Access-Control-Allow-Headers', allowHeaders]
     )
   }
 
@@ -59,15 +56,20 @@ export class ResponseUtils {
 
   /**
    * Output HTTP Error
+   *
+   * response.error(new HTTPError(xxx)) // 传入 HTTP Error
+   * response.error(404) // 传入 HTTP Status
+   * response.error(xxx) // 传入其他内容，会记录下日志并以 500 状态结束请求
    */
   error(error: unknown) {
     if (error instanceof HTTPError) {
       this.nodeResponse.statusCode = error.status // eslint-disable-line require-atomic-updates
       this.nodeResponse.end(error.message)
+    } else if (typeof error === 'number') {
+      this.error(new HTTPError(error))
     } else {
       this.logger.error(error)
-      this.nodeResponse.statusCode = 500 // eslint-disable-line require-atomic-updates
-      this.nodeResponse.end(new HTTPError(500).message)
+      this.error(new HTTPError(500))
     }
   }
 }

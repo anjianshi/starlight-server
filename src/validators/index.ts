@@ -31,7 +31,7 @@ export function boolean(options?: Partial<CommonOptions>) {
 
 export function array(
   itemValidator: Validator,
-  options?: Omit<ConstructorParameters<typeof ArrayValidator>[0], 'item'>,
+  options?: Omit<ConstructorParameters<typeof ArrayValidator>[0], 'item'>
 ) {
   return new ArrayValidator({
     item: itemValidator,
@@ -41,7 +41,7 @@ export function array(
 
 export function object(
   structOrValue: Record<string, Validator> | Validator,
-  options?: Partial<CommonOptions>,
+  options?: Partial<CommonOptions>
 ) {
   return new ObjectValidator({
     ...(structOrValue instanceof Validator ? { value: structOrValue } : { struct: structOrValue }),

@@ -23,7 +23,7 @@ export class Request {
   constructor(
     readonly nodeRequest: NodeRequest,
     protected readonly logger: Logger,
-    bodyOptions: BodyOptions,
+    bodyOptions: BodyOptions
   ) {
     if (nodeRequest.method === undefined) throw new HTTPError(405)
     this.method = nodeRequest.method

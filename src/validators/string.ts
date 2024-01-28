@@ -11,6 +11,7 @@ export interface StringOptions {
 export class StringValidator extends Validator<StringOptions> {
   constructor(options?: Partial<StringOptions> & Partial<CommonOptions>) {
     super({
+      min: 1,
       trim: true,
       ...(options ?? {}),
     })
