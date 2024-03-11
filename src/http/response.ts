@@ -1,4 +1,4 @@
-import { type Logger } from '@anjianshi/utils'
+import { type Logger } from '@/logging.js'
 import { path2MIMEType } from './mime-types.js'
 import { HTTPError, type NodeResponse } from './types.js'
 
@@ -15,16 +15,6 @@ export class ResponseUtils {
 
   headers(...items: [string, string][]) {
     items.forEach(([name, value]) => this.header(name, value))
-  }
-
-  /**
-   * Output CORS Headers
-   */
-  cors(allowOrigin = '*', allowHeaders = '*') {
-    this.headers(
-      ['Access-Control-Allow-Origin', allowOrigin],
-      ['Access-Control-Allow-Headers', allowHeaders]
-    )
   }
 
   text(content: string | Buffer) {
@@ -71,5 +61,14 @@ export class ResponseUtils {
       this.logger.error(error)
       this.error(new HTTPError(500))
     }
+  }
+
+  /**
+   * 执行重定向
+   */
+  redirect(url: string, permanent = false) {
+    this.nodeResponse.statusCode = permanent ? 301 : 302
+    this.header('Location', url)
+    this.nodeResponse.end()
   }
 }

@@ -6,7 +6,7 @@ import {
   ConsoleHandler,
   FileHandler,
   type FileHandlerOptions,
-} from '@anjianshi/utils/env-node/logging.js'
+} from '@anjianshi/utils/env-node/logging/index.js'
 import debug from 'debug'
 
 export type { FileHandlerOptions }

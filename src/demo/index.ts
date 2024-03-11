@@ -1,14 +1,6 @@
 import path from 'node:path'
 import { getFileDir } from '@anjianshi/utils/env-node/index.js'
-import {
-  getLogger,
-  startHTTPServer,
-  type BaseContext,
-  type Route,
-  type PathParameters,
-  Router,
-} from '@/index.js'
-import { registerSwaggerRoute } from '@/swagger/index.js'
+import { getLogger, startHTTPServer, Router } from '@/index.js'
 
 const logger = getLogger({
   level: 'debug',
@@ -18,58 +10,65 @@ const logger = getLogger({
   },
 })
 
-type DemoContext = BaseContext & {
-  now: () => number
-}
-class DemoRouter extends Router<DemoContext> {
-  async executeWithContext(
-    baseContext: BaseContext,
-    route: Route<DemoContext>,
-    pathParameters: PathParameters
-  ) {
-    const context: DemoContext = {
-      ...baseContext,
-      now: () => Date.now(),
-    }
-    await route.handler(context, pathParameters)
-  }
-}
-const router = new DemoRouter()
+// declare module '@/index.js' {
+//   interface Context {
+//     now: () => number
+//   }
+// }
 
-router.registerResponseReference('hello', { object: [{ name: 'hello', type: 'string' }] })
+const router = new Router()
+router.setCors(true)
+router.bindSwagger()
+router.setExecutor(async (basicContext, route) => {
+  await route.handler({
+    ...basicContext,
+    // now: () => Date.now(),
+  })
+})
+
+const swagger = router.swagger
+swagger.registerResponse(
+  'hello',
+  swagger.response({
+    hello: swagger.string(),
+  })
+)
 
 router.register({
-  category: 'demo',
-  description: 'hello world',
   method: 'GET',
   path: '/hello',
-  query: [
-    { name: 'q1', type: 'number', required: true },
-    { name: 'q2', type: 'string', description: '这是q2' },
-  ],
-  body: [
-    { name: 'abc', type: 'number' },
-    { name: 'def', type: { array: { type: 'string' } } },
-  ],
-  response: {
-    object: [{ name: 'key', type: 'string' }],
+  document: {
+    category: 'demo',
+    description: 'hello world',
+    query: {
+      q1: { schema: swagger.number(), required: true },
+      q2: { schema: swagger.number(), description: '这是q2' },
+      q3: swagger.boolean(),
+    },
+    body: {
+      abc: swagger.number(),
+      def: swagger.array(swagger.string()),
+    },
+    response: {
+      name: swagger.string(),
+    },
+  },
+  handler(ctx) {
+    ctx.response.json({ name: 'world' })
+  },
+})
+
+router.register({
+  method: 'POST',
+  path: '/hello',
+  document: {
+    category: 'demo',
+    response: swagger.ref('response', 'hello'),
   },
   handler({ response }) {
     response.json({ hello: 'world' })
   },
 })
-
-router.register({
-  category: 'demo',
-  method: 'POST',
-  path: '/hello',
-  response: { ref: 'hello' },
-  handler({ response }) {
-    response.json({ hello: 'world post' })
-  },
-})
-
-registerSwaggerRoute(router)
 
 startHTTPServer({
   handler: router.handle,

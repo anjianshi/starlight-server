@@ -54,10 +54,10 @@
   dependencies:
     typescript "^5.3.3"
 
-"@anjianshi/utils@^1.2.6":
-  version "1.2.6"
-  resolved "https://registry.npmjs.org/@anjianshi/utils/-/utils-1.2.6.tgz#1071f6fdbde5a9c1fd709eb4819030d89fbe6b2d"
-  integrity sha512-TV16QANCQ/F428AfHPks+bGJojI7IolbckU2BvBudC5xUGQxVzidg0xiQrkz4bPlav3jVyAWk/9+N7erK+klIg==
+"@anjianshi/utils@^1.3.1":
+  version "1.3.1"
+  resolved "https://registry.npmmirror.com/@anjianshi/utils/-/utils-1.3.1.tgz#a53cdf7fe6fb5214d70fa36aeb34bd0f86bb7c64"
+  integrity sha512-/SM/qUCJY25+qBeluP8LuwUwO7i384y1pMSqjDX+/MQhgnz7HYl0NX0w0AdJIUiomG68G2tSOQymE7Xtawx6Rw==
   dependencies:
     dayjs "^1.11.10"
     lodash "^4.17.21"
@@ -1870,10 +1870,10 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.npmmirror.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
-swagger-ui-dist@^5.10.3:
-  version "5.11.1"
-  resolved "https://registry.npmmirror.com/swagger-ui-dist/-/swagger-ui-dist-5.11.1.tgz#ecd2151beee96e0c16ab08ce2f6b262035ca7049"
-  integrity sha512-H0oTRHqAfuyjNBLILhS9OwC0WN/xyfNJQtRBR35AnLY34A5W107zRhLQMzL47uuH87+f+RwxCMeLvNFOdyZ+Tg==
+swagger-ui-dist@^5.11.10:
+  version "5.11.10"
+  resolved "https://registry.npmmirror.com/swagger-ui-dist/-/swagger-ui-dist-5.11.10.tgz#99722e8f496c8f689f2585404791aef16b0b3b10"
+  integrity sha512-wAHf32iFqJCBkdQRBYB1pR8kJuliJbgCXcdgkU7GkDvrOfD2gVmyEwdTi9rERCur/OrufifnH5UecOzlQ07CYg==
 
 tapable@^2.2.0:
   version "2.2.1"
