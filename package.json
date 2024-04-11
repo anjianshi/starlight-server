@@ -1,11 +1,11 @@
 {
   "name": "starlight-server",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Simple But Powerful Node.js HTTP Server",
   "type": "module",
   "scripts": {
-    "dev": "rimraf dist && (concurrently --raw \"tsc -w\" \"sleep 5 && tsc-alias -w\" \"sleep 6 && nodemon dist/demo/index.js\")",
-    "build": "rimraf dist && tsc && tsc-alias",
+    "dev": "rimraf dist && (concurrently --raw \"tsc-with-alias --watch\" \"sleep 6 && nodemon dist/demo/index.js\")",
+    "build": "rimraf dist && tsc-with-alias",
     "prepublishOnly": "npm run build"
   },
   "keywords": [
@@ -30,24 +30,27 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@anjianshi/utils": "^1.3.1",
+    "@anjianshi/utils": "^2.0.6",
     "chalk": "^5.3.0",
+    "dayjs": "^1.11.10",
     "debug": "^4.3.4",
-    "swagger-ui-dist": "^5.11.10"
+    "lodash": "^4.17.21",
+    "swagger-ui-dist": "^5.15.1"
   },
   "devDependencies": {
-    "@anjianshi/presets-eslint-node": "^1.0.3",
-    "@anjianshi/presets-eslint-typescript": "^1.0.3",
-    "@anjianshi/presets-prettier": "^1.0.0",
-    "@anjianshi/presets-typescript": "^1.0.1",
+    "@anjianshi/presets-eslint-node": "^4.0.3",
+    "@anjianshi/presets-eslint-typescript": "^4.0.3",
+    "@anjianshi/presets-prettier": "^3.0.0",
+    "@anjianshi/presets-typescript": "^3.1.3",
     "@types/debug": "^4.1.9",
     "@types/lodash": "^4.14.199",
     "@types/node": "^20.8.6",
     "@types/swagger-ui-dist": "^3.30.4",
     "concurrently": "^8.2.1",
     "nodemon": "^3.0.2",
-    "rimraf": "^4.3.0",
-    "tsc-alias": "^1.8.8"
+    "rimraf": "^5.0.5",
+    "tsc-alias": "^1.8.8",
+    "typescript": "^5.4.5"
   },
   "eslintIgnore": [],
   "prettier": "@anjianshi/presets-prettier/prettierrc"
