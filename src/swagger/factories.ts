@@ -13,7 +13,6 @@ import type {
   Reference,
   Parameter,
   RequestBody,
-  Components,
 } from './specification.js'
 
 type SchemaOrRef = Schema | Reference
@@ -45,11 +44,14 @@ export function makeOperation(options: OperationOptions = {}): Operation {
   const parameters = Array.isArray(query)
     ? query
     : query
-    ? Object.entries(query).reduce<Parameter[]>((result, [name, options]) => {
-        const query = makeQuery({ name, ...('schema' in options ? options : { schema: options }) })
-        return [...result, query]
-      }, [])
-    : undefined
+      ? Object.entries(query).reduce<Parameter[]>((result, [name, options]) => {
+          const query = makeQuery({
+            name,
+            ...('schema' in options ? options : { schema: options }),
+          })
+          return [...result, query]
+        }, [])
+      : undefined
   const requestBody = body ? ('$ref' in body ? (body as Reference) : makeBody(body)) : undefined
   const responses = response
     ? '$ref' in response
@@ -79,7 +81,7 @@ export function isOperationOptions(value: unknown): value is OperationOptions {
   if (typeof value !== 'object' || value === null) return false
   return (
     ['category', 'query', 'body', 'response'].find(key =>
-      truthy((value as Record<string, unknown>)[key])
+      truthy((value as Record<string, unknown>)[key]),
     ) !== undefined
   )
 }
@@ -116,7 +118,7 @@ export function makeHeader(options: ParameterOptions): Parameter {
  */
 export function makeBody(
   input: Record<string, SchemaOrRef> | ObjectOptions | Schema,
-  description?: string
+  description?: string,
 ): RequestBody {
   return {
     description,
@@ -152,7 +154,7 @@ export function makeResponsesBy(response: Response | Reference): Responses {
 /** 生成 Response 定义 */
 export function makeResponse(
   schema: Schema | Record<string, SchemaOrRef>,
-  description?: string
+  description?: string,
 ): Response {
   return {
     description,
@@ -175,7 +177,7 @@ export function isSchema(value: unknown): value is Schema {
   if (typeof value !== 'object' || value === null) return false
   return (
     ['type', 'allOf', 'anyOf', 'oneOf', 'not'].find(key =>
-      truthy((value as Record<string, unknown>)[key])
+      truthy((value as Record<string, unknown>)[key]),
     ) !== undefined
   )
 }

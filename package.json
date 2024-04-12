@@ -4,9 +4,10 @@
   "description": "Simple But Powerful Node.js HTTP Server",
   "type": "module",
   "scripts": {
-    "dev": "rimraf dist && (concurrently --raw \"tsc-with-alias --watch\" \"sleep 6 && nodemon dist/demo/index.js\")",
+    "dev": "rimraf dist && (concurrently --raw \"tsc-with-alias --watch\" \"nodemon dist/demo/index.js\")",
     "build": "rimraf dist && tsc-with-alias",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "lint": "tsc --noEmit && eslint './src/**/*'"
   },
   "keywords": [
     "web",
@@ -30,7 +31,7 @@
     "registry": "https://registry.npmjs.org/"
   },
   "dependencies": {
-    "@anjianshi/utils": "^2.0.6",
+    "@anjianshi/utils": "^2.0.7",
     "chalk": "^5.3.0",
     "dayjs": "^1.11.10",
     "debug": "^4.3.4",
