@@ -4,8 +4,9 @@
   "description": "Simple But Powerful Node.js HTTP Server",
   "type": "module",
   "scripts": {
-    "dev": "rimraf dist && (concurrently --raw \"tsc-with-alias --watch\" \"nodemon dist/demo/index.js\")",
+    "demo": "rimraf dist && (concurrently --raw \"tsc-with-alias --watch\" \"nodemon dist/demo/index.js\")",
     "build": "rimraf dist && tsc-with-alias",
+    "watch": "rimraf dist && tsc-with-alias --watch",
     "prepublishOnly": "npm run build",
     "lint": "tsc --noEmit && eslint './src/**/*'"
   },

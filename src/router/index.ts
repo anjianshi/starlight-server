@@ -1,5 +1,5 @@
 import { joinPath } from '@anjianshi/utils'
-import { type validators } from '@anjianshi/utils/validators/index.js'
+import { validators } from '@anjianshi/utils/validators/index.js'
 import { getPreflightRequestMethod, handleCORS, type CORSRule } from '@/http/cors.js'
 import { HTTPError, type Request, type ResponseUtils } from '@/http/index.js'
 import { Swagger, type Method } from '@/swagger/index.js'
@@ -138,6 +138,7 @@ export class Router {
       validatePathParameters: helpers.validatePathParameters.bind(basicContext),
       validateQuery: helpers.validateQuery.bind(basicContext),
       validateBody: helpers.validateBody.bind(basicContext),
+      validators,
     })
     await this.executor(basicContext, matched.route)
   }

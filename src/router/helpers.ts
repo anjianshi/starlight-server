@@ -21,7 +21,7 @@ export async function validateBody<T>(this: BasicContext, struct: Record<string,
   if (typeof body !== 'object' || body === null || Array.isArray(body))
     throw new HTTPError(400, 'Invalid JSON body, should be an object.')
 
-  const result = validators.struct(struct).validate('body', this.request.body)
+  const result = validators.struct(struct).validate('body', body)
   if (result.success) return result.data as T
   throw new HTTPError(400, result.message)
 }
