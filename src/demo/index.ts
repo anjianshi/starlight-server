@@ -31,7 +31,7 @@ swagger.registerResponse(
   'hello',
   swagger.response({
     hello: swagger.string(),
-  })
+  }),
 )
 
 router.register({

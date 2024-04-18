@@ -1,17 +1,20 @@
 import { joinPath } from '@anjianshi/utils'
+import { type validators } from '@anjianshi/utils/validators/index.js'
 import { getPreflightRequestMethod, handleCORS, type CORSRule } from '@/http/cors.js'
 import { HTTPError, type Request, type ResponseUtils } from '@/http/index.js'
 import { Swagger, type Method } from '@/swagger/index.js'
 import * as helpers from './helpers.js'
 import { matchPath, type PathParameters } from './match-path.js'
 
+type WithoutThis<T extends (...args: any[]) => unknown> = (...args: Parameters<T>) => ReturnType<T>
 export interface BasicContext {
   request: Request
   response: ResponseUtils
   pathParameters: PathParameters
-  validatePathParameters: typeof helpers.validatePathParameters
-  validateQuery: typeof helpers.validateQuery
-  validateBody: typeof helpers.validateBody
+  validatePathParameters: WithoutThis<typeof helpers.validatePathParameters>
+  validateQuery: WithoutThis<typeof helpers.validateQuery>
+  validateBody: WithoutThis<typeof helpers.validateBody>
+  validators: typeof validators
 }
 
 /** 使用者可自行补充 Context 定义  */
@@ -108,7 +111,7 @@ export class Router {
   readonly handle = async (request: Request, response: ResponseUtils) => {
     const pathMatchedRoutes = matchPath(
       this.routes.map(route => route.path),
-      request.path
+      request.path,
     ).map(result => ({ route: this.routes[result.index]!, parameters: result.parameters }))
     if (!pathMatchedRoutes.length) throw new HTTPError(404) // 没有路径匹配的路由
 
@@ -117,7 +120,7 @@ export class Router {
     if (!matched) {
       const preflightTargetMethod = getPreflightRequestMethod(request) // 对于 CORS Preflight 请求，此为客户端原本希望请求的 method
       const preflightMatched = pathMatchedRoutes.find(
-        match => match.route.method === preflightTargetMethod
+        match => match.route.method === preflightTargetMethod,
       )
       if (preflightMatched) {
         const corsRule = preflightMatched.route.cors ?? this.cors
@@ -133,6 +136,7 @@ export class Router {
       request,
       response,
       pathParameters: matched.parameters,
+      validatePathParameters: helpers.validatePathParameters.bind(basicContext),
       validateQuery: helpers.validateQuery.bind(basicContext),
       validateBody: helpers.validateBody.bind(basicContext),
     })
