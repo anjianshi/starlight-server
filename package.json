@@ -1,6 +1,6 @@
 {
   "name": "starlight-server",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "description": "Simple But Powerful Node.js HTTP Server",
   "type": "module",
   "scripts": {

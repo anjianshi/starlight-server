@@ -6,14 +6,13 @@ import { Swagger, type Method } from '@/swagger/index.js'
 import * as helpers from './helpers.js'
 import { matchPath, type PathParameters } from './match-path.js'
 
-type WithoutThis<T extends (...args: any[]) => unknown> = (...args: Parameters<T>) => ReturnType<T>
 export interface BasicContext {
   request: Request
   response: ResponseUtils
   pathParameters: PathParameters
-  validatePathParameters: WithoutThis<typeof helpers.validatePathParameters>
-  validateQuery: WithoutThis<typeof helpers.validateQuery>
-  validateBody: WithoutThis<typeof helpers.validateBody>
+  validatePathParameters: <T>(...args: Parameters<typeof helpers.validatePathParameters>) => T
+  validateQuery: <T>(...args: Parameters<typeof helpers.validateQuery>) => T
+  validateBody: <T>(...args: Parameters<typeof helpers.validateBody>) => Promise<T>
   validators: typeof validators
 }
 
