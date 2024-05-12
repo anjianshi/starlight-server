@@ -7,7 +7,12 @@ import { HTTPError, type NodeResponse } from './types.js'
  * Encapsulate functions for outputting response content.
  */
 export class ResponseUtils {
-  constructor(readonly nodeResponse: NodeResponse, readonly logger: Logger) {}
+  constructor(
+    readonly nodeResponse: NodeResponse,
+    readonly logger: Logger,
+    /** 处理 JSON 输出中的自定义类型 */
+    public jsonReplacer?: (key: string, value: unknown) => unknown,
+  ) {}
 
   header(name: string, value: string) {
     this.nodeResponse.setHeader(name, value)
@@ -26,7 +31,7 @@ export class ResponseUtils {
    */
   json(data: unknown) {
     try {
-      const json = JSON.stringify(data)
+      const json = JSON.stringify(data, this.jsonReplacer)
       this.header('Content-Type', 'application/json; charset=UTF-8')
       this.nodeResponse.end(json)
     } catch (e) {

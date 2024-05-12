@@ -33,7 +33,9 @@ export function startHTTPServer(
     handler?: RequestHandler
     logger: Logger
     port: number
-  }
+    /** 处理 JSON 输出中的自定义类型，详见 JSON.stringify() 的 replacer 参数 */
+    jsonReplacer?: (key: string, value: unknown) => unknown
+  },
 ) {
   const { handler = placeholderHandler, logger, port, ...bodyOptions } = options
 
@@ -43,7 +45,7 @@ export function startHTTPServer(
     const logUrl = nodeRequest.url ?? ''
     logger.info('<--', logMethod, logUrl)
 
-    const response = new ResponseUtils(nodeResponse, logger)
+    const response = new ResponseUtils(nodeResponse, logger, options.jsonReplacer)
     try {
       const request = new Request(nodeRequest, logger, bodyOptions)
       await handler(request, response)

@@ -3,17 +3,20 @@ import { validators } from '@anjianshi/utils/validators/index.js'
 import { getPreflightRequestMethod, handleCORS, type CORSRule } from '@/http/cors.js'
 import { HTTPError, type Request, type ResponseUtils } from '@/http/index.js'
 import { Swagger, type Method } from '@/swagger/index.js'
-import * as helpers from './helpers.js'
+import { Helpers } from './helpers.js'
 import { matchPath, type PathParameters } from './match-path.js'
 
+type HelpersInst = InstanceType<typeof Helpers>
 export interface BasicContext {
   request: Request
   response: ResponseUtils
   pathParameters: PathParameters
-  validatePathParameters: <T>(...args: Parameters<typeof helpers.validatePathParameters>) => T
-  validateQuery: <T>(...args: Parameters<typeof helpers.validateQuery>) => T
-  validateBody: <T>(...args: Parameters<typeof helpers.validateBody>) => Promise<T>
+  validatePathParameters: HelpersInst['validatePathParameters']
+  validateQuery: HelpersInst['validateQuery']
+  validateBody: HelpersInst['validateBody']
   validators: typeof validators
+  success: HelpersInst['success']
+  failed: HelpersInst['failed']
 }
 
 /** 使用者可自行补充 Context 定义  */
@@ -95,7 +98,7 @@ export class Router {
    * route 调用 / context 配置
    * -------------------------------
    */
-  private executor = async (basicContext: BasicContext, route: Route) => {
+  protected executor = async (basicContext: BasicContext, route: Route) => {
     await route.handler(basicContext as Context)
   }
   setExecutor(executor: typeof this.executor) {
@@ -131,14 +134,17 @@ export class Router {
     }
 
     const basicContext = {} as BasicContext
+    const helpers = new Helpers(basicContext)
     Object.assign(basicContext, {
       request,
       response,
       pathParameters: matched.parameters,
-      validatePathParameters: helpers.validatePathParameters.bind(basicContext),
-      validateQuery: helpers.validateQuery.bind(basicContext),
-      validateBody: helpers.validateBody.bind(basicContext),
+      validatePathParameters: helpers.validatePathParameters.bind(helpers),
+      validateQuery: helpers.validateQuery.bind(helpers),
+      validateBody: helpers.validateBody.bind(helpers),
       validators,
+      success: helpers.success.bind(helpers),
+      failed: helpers.failed.bind(helpers),
     })
     await this.executor(basicContext, matched.route)
   }

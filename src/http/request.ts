@@ -42,7 +42,7 @@ export class Request {
   constructor(
     readonly nodeRequest: NodeRequest,
     protected readonly logger: Logger,
-    bodyOptions: BodyOptions
+    bodyOptions: BodyOptions,
   ) {
     if (nodeRequest.method === undefined) throw new HTTPError(405)
     this.method = nodeRequest.method.toUpperCase()
@@ -65,8 +65,21 @@ export class Request {
 
   /**
    * 获取 HTTP Header，支持任意大小写形式：content-type / Content-Type
+   * 若 loose 为 true，固定返回一个字符串。有多个值时返回第一个，header 不存在时返回空字符串。
    */
-  getHeader<const K extends string>(key: K): http.IncomingHttpHeaders[Lowercase<K>] {
-    return this.headers[key.toLowerCase()]
+  getHeader<const K extends string>(key: K, loose?: false): http.IncomingHttpHeaders[Lowercase<K>]
+  getHeader<const K extends string>(key: K, loose: true): string
+  getHeader<const K extends string>(
+    key: K,
+    loose?: boolean,
+  ): http.IncomingHttpHeaders[Lowercase<K>] | string {
+    const value = this.headers[key.toLowerCase()]
+    if (loose === true) {
+      if (typeof value === 'string') return value
+      if (Array.isArray(value) && value.length > 0) return value[1]!
+      return ''
+    } else {
+      return value
+    }
   }
 }
