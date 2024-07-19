@@ -131,6 +131,9 @@ export class Router {
         return
       }
       throw new HTTPError(405) // 有路径匹配的路由，但是没有 method 匹配的
+    } else {
+      const corsRule = matched.route.cors ?? this.cors
+      handleCORS(request, response, typeof corsRule === 'function' ? corsRule(request) : corsRule)
     }
 
     const basicContext = {} as BasicContext

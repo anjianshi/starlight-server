@@ -18,8 +18,13 @@ export class ResponseUtils {
     this.nodeResponse.setHeader(name, value)
   }
 
-  headers(...items: [string, string][]) {
-    items.forEach(([name, value]) => this.header(name, value))
+  headers(...items: [string, string][]): void
+  headers(items: Record<string, string>): void
+  headers(...items: [string, string][] | [Record<string, string>]) {
+    if (items.length === 1 && typeof items[0] === 'object') {
+      items = Object.entries(items[0] as Record<string, string>)
+    }
+    void (items as [string, string][]).forEach(([name, value]) => this.header(name, value))
   }
 
   text(content: string | Buffer) {
