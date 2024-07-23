@@ -42,7 +42,7 @@ export type CORSRule =
 export function handleCORS(
   request: Request | NodeRequest,
   response: ResponseUtils | NodeResponse,
-  rule: CORSRule
+  rule: CORSRule,
 ) {
   // 不输出 CORS 相关 headers，浏览器会默认服务端不允许跨域请求
   if (rule === false) return
@@ -56,4 +56,9 @@ export function handleCORS(
     nodeResponse.setHeader('Access-Control-Allow-Headers', rule.allowHeaders)
   if (!requestIsPreflight && rule.exposeHeaders !== undefined)
     nodeResponse.setHeader('Access-Control-Expose-Headers', rule.exposeHeaders)
+  if (requestIsPreflight)
+    nodeResponse.setHeader(
+      'Access-Control-Allow-Methods',
+      getPreflightRequestMethod(request) ?? request.method ?? '',
+    )
 }
