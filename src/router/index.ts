@@ -2,19 +2,18 @@ import { type OptionalFields, joinPath } from '@anjianshi/utils'
 import { getPreflightRequestMethod, handleCORS, type CORSRule } from '@/http/cors.js'
 import { HTTPError, type Request, type ResponseUtils } from '@/http/index.js'
 import { Swagger, type Method } from '@/swagger/index.js'
-import { Helpers } from './helpers.js'
+import {
+  getRequestWithHelpers,
+  getResponseUtilsWithHelpers,
+  type RequestWithHelpers,
+  type ResponseUtilsWithHelpers,
+} from './helpers.js'
 import { matchPath, type PathParameters } from './match-path.js'
 
-type HelpersInst = InstanceType<typeof Helpers>
 export interface BasicContext {
-  request: Request
-  response: ResponseUtils
   pathParameters: PathParameters
-  validatePathParameters: HelpersInst['validatePathParameters']
-  validateQuery: HelpersInst['validateQuery']
-  validateBody: HelpersInst['validateBody']
-  success: HelpersInst['success']
-  failed: HelpersInst['failed']
+  request: RequestWithHelpers
+  response: ResponseUtilsWithHelpers
 }
 
 /** 使用者可自行补充 Context 定义  */
@@ -135,17 +134,13 @@ export class Router {
       handleCORS(request, response, typeof corsRule === 'function' ? corsRule(request) : corsRule)
     }
 
+    const requestWithHelpers = getRequestWithHelpers(request, matched.parameters)
+    const responseWithHelpers = getResponseUtilsWithHelpers(response)
+
     const basicContext = {} as BasicContext
-    const helpers = new Helpers(basicContext)
     Object.assign(basicContext, {
-      request,
-      response,
-      pathParameters: matched.parameters,
-      validatePathParameters: helpers.validatePathParameters.bind(helpers),
-      validateQuery: helpers.validateQuery.bind(helpers),
-      validateBody: helpers.validateBody.bind(helpers),
-      success: helpers.success.bind(helpers),
-      failed: helpers.failed.bind(helpers),
+      request: requestWithHelpers,
+      response: responseWithHelpers,
     })
 
     const result = await (this.executor(basicContext, matched.route) as Promise<unknown>)
