@@ -1,30 +1,38 @@
 import { success, failed } from '@anjianshi/utils'
-import { type Validator, validators } from '@anjianshi/utils/validators/index.js'
+import {
+  getValidator,
+  type Definition as ValidatorDefinition,
+} from '@anjianshi/utils/validators/index.js'
 import { HTTPError } from '@/index.js'
 import { type BasicContext } from './index.js'
 
 export class Helpers {
   constructor(readonly context: BasicContext) {}
 
-  validatePathParameters<T>(struct: Record<string, Validator>) {
-    const result = validators.struct(struct).validate('path', this.context.pathParameters)
-    if (result.success) return result.data as T
+  validatePathParameters<Definition extends Record<string, ValidatorDefinition>>(
+    struct: Definition,
+  ) {
+    const result = getValidator({ type: 'struct', struct })(
+      'path',
+      this.context.pathParameters as Record<string, string>,
+    )
+    if (result.success) return result.data
     throw new HTTPError(400, result.message)
   }
 
-  validateQuery<T>(struct: Record<string, Validator>) {
-    const result = validators.struct(struct).validate('query', this.context.request.query)
-    if (result.success) return result.data as T
+  validateQuery<Definition extends Record<string, ValidatorDefinition>>(struct: Definition) {
+    const result = getValidator({ type: 'struct', struct })('query', this.context.request.query)
+    if (result.success) return result.data
     throw new HTTPError(400, result.message)
   }
 
-  async validateBody<T>(struct: Record<string, Validator>) {
+  async validateBody<Definition extends Record<string, ValidatorDefinition>>(struct: Definition) {
     const body = await this.context.request.body.json()
     if (typeof body !== 'object' || body === null || Array.isArray(body))
       throw new HTTPError(400, 'Invalid JSON body, should be an object.')
 
-    const result = validators.struct(struct).validate('body', body)
-    if (result.success) return result.data as T
+    const result = getValidator({ type: 'struct', struct })('body', body as Record<string, string>)
+    if (result.success) return result.data
     throw new HTTPError(400, result.message)
   }
 

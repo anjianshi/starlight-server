@@ -35,7 +35,7 @@ export interface MatchResult {
 }
 
 // 匹配得到的参数值
-export type PathParameters = {
+export interface PathParameters {
   [name: string]: string | undefined
   '*'?: string
 }

@@ -1,5 +1,4 @@
-import { joinPath } from '@anjianshi/utils'
-import { validators } from '@anjianshi/utils/validators/index.js'
+import { type OptionalFields, joinPath } from '@anjianshi/utils'
 import { getPreflightRequestMethod, handleCORS, type CORSRule } from '@/http/cors.js'
 import { HTTPError, type Request, type ResponseUtils } from '@/http/index.js'
 import { Swagger, type Method } from '@/swagger/index.js'
@@ -14,13 +13,12 @@ export interface BasicContext {
   validatePathParameters: HelpersInst['validatePathParameters']
   validateQuery: HelpersInst['validateQuery']
   validateBody: HelpersInst['validateBody']
-  validators: typeof validators
   success: HelpersInst['success']
   failed: HelpersInst['failed']
 }
 
 /** 使用者可自行补充 Context 定义  */
-export interface Context extends BasicContext {}
+export interface Context extends BasicContext {} // eslint-disable-line @typescript-eslint/no-empty-object-type
 
 export interface Route {
   method: Method
@@ -40,7 +38,8 @@ export class Router {
    */
   readonly routes: Route[] = []
 
-  register(route: Route) {
+  register(inputRoute: OptionalFields<Route, 'method'>) {
+    const route = { ...inputRoute, method: inputRoute.method ?? 'GET' }
     this.routes.push(route)
     this.registerRouteToSwagger(route)
   }
@@ -145,10 +144,11 @@ export class Router {
       validatePathParameters: helpers.validatePathParameters.bind(helpers),
       validateQuery: helpers.validateQuery.bind(helpers),
       validateBody: helpers.validateBody.bind(helpers),
-      validators,
       success: helpers.success.bind(helpers),
       failed: helpers.failed.bind(helpers),
     })
-    await this.executor(basicContext, matched.route)
+
+    const result = await (this.executor(basicContext, matched.route) as Promise<unknown>)
+    if (result !== undefined) throw new Error('route handler 不应该有返回值')
   }
 }
