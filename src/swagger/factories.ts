@@ -69,7 +69,7 @@ export function makeOperation(options: OperationOptions = {}): Operation {
 }
 export interface OperationOptions extends Pick<Operation, 'summary' | 'description'> {
   category?: string
-  query?: (Parameter | Reference)[] | { [name: string]: Schema | Omit<ParameterOptions, 'name'> }
+  query?: (Parameter | Reference)[] | Record<string, Schema | Omit<ParameterOptions, 'name'>>
   /** 用来构建 RequestBody 的选项值，或引用某个 **RequestBody** 的 Reference */
   body?: Parameters<typeof makeBody>[0] | Reference
   /** 用来构建 Response 的选项值，或引用某个 **Response** 的 Reference */

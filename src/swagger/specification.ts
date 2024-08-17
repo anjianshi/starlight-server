@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-indexed-object-style */
 /**
  * OpenAPI Specification
  * https://swagger.io/specification/
@@ -146,7 +147,7 @@ export interface OpenAPI {
    * 定义“接口提供方”可能主动请求“接口使用者”的情况，例如做某些通知。
    * “接口使用者”可根据需要有选择性地实现这些 webhook 来接收通知。
    */
-  webhooks?: { [name: string]: PathItem | Reference }
+  webhooks?: Record<string, PathItem | Reference>
   /** [核心] 定义可重用内容（可通过 $ref 引用这里的内容） */
   components?: Components
   /**
@@ -198,7 +199,7 @@ export interface Server extends Extensions {
   /** 服务器介绍（CommonMark） */
   description?: string
   /** 定义可插入到 URL 中的变量列表 */
-  variables?: { [variableName: string]: ServerVariable }
+  variables?: Record<string, ServerVariable>
 }
 
 /** 服务器 URL 变量定义  */
@@ -214,25 +215,25 @@ export interface ServerVariable extends Extensions {
 /** 可重用内容集合 */
 export interface Components extends Extensions {
   /** 数据格式（可用在请求和响应内容中） */
-  schemas?: { [name: string]: Schema }
+  schemas?: Record<string, Schema>
   /** 响应内容 */
-  responses?: { [name: string]: Response | Reference }
+  responses?: Record<string, Response | Reference>
   /** 请求参数 */
-  parameters?: { [name: string]: Parameter | Reference }
+  parameters?: Record<string, Parameter | Reference>
   /** 范例 */
-  examples?: { [name: string]: Example | Reference }
+  examples?: Record<string, Example | Reference>
   /** 请求体 */
-  requestBodies?: { [name: string]: RequestBody | Reference }
+  requestBodies?: Record<string, RequestBody | Reference>
   /** HTTP Header 定义 */
-  headers?: { [name: string]: Header | Reference }
+  headers?: Record<string, Header | Reference>
   /** 认证方案 */
-  securitySchemes?: { [name: string]: SecurityScheme | Reference }
+  securitySchemes?: Record<string, SecurityScheme | Reference>
   /** 接口关联信息 */
-  links?: { [name: string]: Link | Reference }
+  links?: Record<string, Link | Reference>
   /** 接口回调（接口被调用后，反过来请求“请求发起者”的网址） */
-  callbacks?: { [name: string]: Callback | Reference }
+  callbacks?: Record<string, Callback | Reference>
   /** 对某一接口路径的定义 */
-  pathItems?: { [name: string]: PathItem | Reference }
+  pathItems?: Record<string, PathItem | Reference>
 }
 
 /**
@@ -292,7 +293,7 @@ export interface Operation {
   /** 响应内容 */
   responses?: Responses
   /** 此接口的回调列表。回调 id 须全局唯一。 */
-  callbacks?: { [id: string]: Callback | Reference }
+  callbacks?: Record<string, Callback | Reference>
   /** 接口是否已废弃 */
   deprecated?: boolean
   /** 此接口的安全要求，代替全局定义的安全要求 */
@@ -355,7 +356,7 @@ export interface StandardParameter extends BaseParameter {
   /** 范例值，不能与 examples 同时存在 */
   example?: unknown
   /** 一系列范例值，不能与 example 同时存在 */
-  examples?: { [exampleName: string]: Example | Reference }
+  examples?: Record<string, Example | Reference>
 }
 /**
  * 复杂场景的参数：用指定 MIME Type 的格式序列化参数。
@@ -378,7 +379,7 @@ export interface CustomizeParameter extends BaseParameter {
    * 定义序列化方式（MIME Type）和数据内容。
    * 此对象中只能有一个键值对，即一个参数只能有一种序列化方式。
    */
-  content?: { [MIMEType: string]: MediaType }
+  content?: Record<string, MediaType>
 }
 
 /** 参数位置 */
@@ -403,7 +404,7 @@ export interface RequestBody extends Extensions {
    * 例如一个接口支持接收 JSON 或 HTML 表单形式的 body。
    * 那么就要定义这样的 content：{ 'application/json': xxx, 'application/x-www-form-urlencoded': xxx }
    */
-  content: { [MIMEType: string]: MediaType }
+  content: Record<string, MediaType>
   /** 请求体是否必须 */
   required?: boolean
 }
@@ -415,7 +416,7 @@ export interface MediaType extends Extensions {
   /** 范例值，不能与 examples 同时存在 */
   example?: unknown
   /** 一系列范例值，不能与 example 同时存在 */
-  examples?: { [exampleName: string]: Example | Reference }
+  examples?: Record<string, Example | Reference>
   /**
    * 为 schema 中的各对象字段补充编码信息。
    * - 仅在 MediaType 出现在 RequestBody 中，且 MIME type 为 `multipart/*` 或 `application/x-www-form-urlencoded` 时有意义。
@@ -424,7 +425,7 @@ export interface MediaType extends Extensions {
    * - 可以理解为 body 的 MIME type 是这两种时，可以通过 encoding 字段在 body 中定义 Parameter。
    *   而其他情况下，body 只能整体定义，总体只拥有一种 MIME Type，不能给其下每个字段单独定义序列化方式。
    */
-  encoding?: { [schemaProperty: string]: Encoding }
+  encoding?: Record<string, Encoding>
 }
 
 /**
@@ -495,9 +496,9 @@ export interface Response extends Extensions {
    * 定义可能的响应内容 MIME Type，及对应的内容格式。
    * 例如一个接口支持返回 JSON 内容，也支持返回 XML（请求时可通过 `Accept` Header 或其他方式指定）。
    */
-  content?: { [MIMEType: string]: MediaType }
+  content?: Record<string, MediaType>
   /** 列出与此响应内容关联的其他接口（例如返回内容里的 id 字段是另一个接口需要的传参） */
-  links?: { [linkName: string]: Link | Reference }
+  links?: Record<string, Link | Reference>
 }
 
 /**
@@ -538,7 +539,7 @@ export interface Link extends Extensions {
    * - name: 在关联接口处的参数名。可通过 `path.id` 这样的形式指定参数位置（in）
    * - value: 根据当前接口信息生成的参数值。可以是“常量”或“可计算的表达式（Runtime Expression）”
    */
-  parameters?: { [name: string]: unknown }
+  parameters?: Record<string, unknown>
   /**
    * 当前接口中可作为关联接口的 requestBody 的内容。
    * 值可以是“常量”或“可计算的表达式（Runtime Expression）”。
@@ -648,9 +649,9 @@ export interface Schema extends Extensions {
   contains?: Schema | Reference
 
   /** [type=object] 对象各字段的规范  */
-  properties?: { [name: string]: Schema | Reference }
+  properties?: Record<string, Schema | Reference>
   /** [type=object] 要求名称与某个 regexp 匹配的字段，值也必须符合对应的 Schema 规范 */
-  patternProperties?: { [regexp: string]: Schema | Reference }
+  patternProperties?: Record<string, Schema | Reference>
   /** [type=object] 指定没被 properties 和 patternProperties 匹配到的字段的规范。 */
   additionalProperties?: Schema | Reference
   /** [type=object] 要求对象的每个字段名作为字符串都符合此规范 */
@@ -712,15 +713,15 @@ export interface Schema extends Extensions {
   $dynamicAnchor?: string
   // $ref?: string // 类型里不能定义此字段，不然无法区分 Schema 和 Reference
   $dynamicRef?: string
-  $defs?: { [id: string]: Schema }
+  $defs?: Record<string, Schema>
   $comment?: string
-  dependentSchemas?: { [propertyName: string]: Schema | Reference }
+  dependentSchemas?: Record<string, Schema | Reference>
   unevaluatedItems?: Schema
   unevaluatedProperties?: Schema
 
   // ----- JSON Schema Validation 规范里的不常用字段 -----
 
-  dependencies?: { [name: string]: Schema | Schema[] | Reference | Reference[] }
+  dependencies?: Record<string, Schema | Schema[] | Reference | Reference[]>
 }
 
 /** 数据类型 */
@@ -803,9 +804,7 @@ export interface OAuthFlow extends Extensions {
  * name 必须是 components.securitySchemes 中定义了的认证方案。
  * value 是方案的配置参数
  */
-export interface SecurityRequirement {
-  [name: string]: string
-}
+export type SecurityRequirement = Record<string, string>
 
 // ========= 辅助类型 ==========
 
@@ -813,11 +812,9 @@ export interface SecurityRequirement {
  * 在规范定义之外，补充额外内容
  * 扩展的 key 需以 'x-' 开头，例如 x-token
  */
-export interface Extensions {
-  [key: `x-${string}`]: unknown
-}
+export type Extensions = Record<`x-${string}`, unknown>
 /**
  * 因 TypeScript 限制，部分类型无法继承 Extensions，此时可改为继承此类型
  * 但还是应遵守和 Extensions 一样的规范
  */
-export interface LooseExtensions {}
+export interface LooseExtensions {} // eslint-disable-line @typescript-eslint/no-empty-object-type
