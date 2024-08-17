@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@anjianshi/utils':
-        specifier: ^2.2.5
-        version: 2.2.5(chalk@5.3.0)(dayjs@1.11.12)
+        specifier: ^2.2.6
+        version: 2.2.6(chalk@5.3.0)(dayjs@1.11.12)
       chalk:
         specifier: ^5.3.0
         version: 5.3.0
@@ -90,8 +90,8 @@ packages:
       typescript:
         optional: true
 
-  '@anjianshi/utils@2.2.5':
-    resolution: {integrity: sha512-crMHntA1Hu8TIj023JLm/Mi+D5EEwh9rUlrCOyMkTg7o3ViFCIg2b+3BPPi7D5C09KQAacsC2X+S1SCRVvm9YQ==}
+  '@anjianshi/utils@2.2.6':
+    resolution: {integrity: sha512-avRad1izQLyn73ynNbFxC4K9jltSpp24tCtoQRjDf2RkHn5c8cMzvFPJYCANB15/WraebQ1tdjaX9Sx55ZZg8Q==}
     peerDependencies:
       chalk: ^5.3.0
       dayjs: ^1.11.10
@@ -907,7 +907,7 @@ snapshots:
       tsc-alias: 1.8.10
       typescript: 5.5.4
 
-  '@anjianshi/utils@2.2.5(chalk@5.3.0)(dayjs@1.11.12)':
+  '@anjianshi/utils@2.2.6(chalk@5.3.0)(dayjs@1.11.12)':
     dependencies:
       lodash: 4.17.21
     optionalDependencies:
