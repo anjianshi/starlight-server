@@ -134,14 +134,11 @@ export class Router {
       handleCORS(request, response, typeof corsRule === 'function' ? corsRule(request) : corsRule)
     }
 
-    const requestWithHelpers = getRequestWithHelpers(request, matched.parameters)
-    const responseWithHelpers = getResponseUtilsWithHelpers(response)
-
-    const basicContext = {} as BasicContext
-    Object.assign(basicContext, {
-      request: requestWithHelpers,
-      response: responseWithHelpers,
-    })
+    const basicContext: BasicContext = {
+      request: getRequestWithHelpers(request, matched.parameters),
+      response: getResponseUtilsWithHelpers(response),
+      pathParameters: matched.parameters,
+    }
 
     const result = await (this.executor(basicContext, matched.route) as Promise<unknown>)
     if (result !== undefined) throw new Error('route handler 不应该有返回值')
