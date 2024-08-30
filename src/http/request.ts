@@ -28,7 +28,7 @@ export class Request {
   readonly path: string
 
   /** 解析后的 query 对象 */
-  readonly query: Record<string, string>
+  readonly query: Record<string, string | string[]>
 
   /**
    * headers 对象，以 Record<string, xxx> 形式访问，仅支持小写 key。
@@ -58,7 +58,7 @@ export class Request {
       throw new HTTPError(400, 'URL invalid')
     }
 
-    this.query = parseQuery(this.url)
+    this.query = parseQuery(this.url, { array: true })
     this.headers = nodeRequest.headers
     this.body = new RequestBody(nodeRequest, bodyOptions)
   }
