@@ -1,12 +1,12 @@
 import path from 'node:path'
-import { getFileDir } from '@anjianshi/utils/env-node/index.js'
+import { getDirectoryPath } from '@anjianshi/utils/env-node/index.js'
 import { getLogger, startHTTPServer, Router } from '@/index.js'
 
 const logger = getLogger({
   level: 'debug',
   debugLib: '*',
   file: {
-    dir: path.resolve(getFileDir(import.meta), '../../logs'),
+    dir: path.resolve(getDirectoryPath(import.meta), '../../logs'),
   },
 })
 
