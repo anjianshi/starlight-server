@@ -1,6 +1,6 @@
 {
   "name": "starlight-server",
-  "version": "1.7.12",
+  "version": "1.7.13",
   "description": "Simple But Powerful Node.js HTTP Server",
   "type": "module",
   "scripts": {
@@ -46,7 +46,7 @@
     "@anjianshi/presets-typescript": "^3.2.2",
     "@types/debug": "^4.1.12",
     "@types/lodash": "^4.17.9",
-    "@types/node": "^20.16.7",
+    "@types/node": "^22.7.3",
     "@types/swagger-ui-dist": "^3.30.5",
     "concurrently": "^8.2.2",
     "nodemon": "^3.1.7",
