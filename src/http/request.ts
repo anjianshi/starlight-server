@@ -1,6 +1,5 @@
 import type http from 'node:http'
-import { parseQuery } from '@anjianshi/utils'
-import { type Logger } from '@/logging.js'
+import { parseQuery, type Logger } from '@anjianshi/utils'
 import { RequestBody, type BodyOptions } from './body/index.js'
 import { HTTPError, type NodeRequest } from './types.js'
 

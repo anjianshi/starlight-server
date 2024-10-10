@@ -1,5 +1,5 @@
 import http from 'node:http'
-import { type Logger, LogLevel } from '@/logging.js'
+import { type Logger, LogLevel } from '@anjianshi/utils'
 import { type BodyOptions } from './body/index.js'
 import { Request } from './request.js'
 import { ResponseUtils } from './response.js'

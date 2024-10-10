@@ -1,4 +1,4 @@
-import { type Logger } from '@/logging.js'
+import { type Logger } from '@anjianshi/utils'
 import { path2MIMEType } from './mime-types.js'
 import { HTTPError, type NodeResponse } from './types.js'
 
@@ -63,7 +63,7 @@ export class ResponseUtils {
    */
   error(error: unknown) {
     if (error instanceof HTTPError) {
-      this.nodeResponse.statusCode = error.status // eslint-disable-line require-atomic-updates
+      this.nodeResponse.statusCode = error.status
       this.nodeResponse.end(error.message)
     } else if (typeof error === 'number') {
       this.error(new HTTPError(error))
