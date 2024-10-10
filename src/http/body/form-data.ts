@@ -76,7 +76,7 @@ export function parseFormData(body: Buffer, boundary: string): FormData {
   let rest = body
   let state: State = State.Init
   let partialInput: Input | undefined // 在 ReadingHeaders 状态里会为其赋值 Will be assigned when in the ReadingHeaders state
-  // eslint-disable-next-line no-constant-condition
+
   while (true) {
     if (!rest.byteLength) throw new HTTPError(400, 'form-data: not complete')
 
@@ -110,7 +110,7 @@ export function parseFormData(body: Buffer, boundary: string): FormData {
       const name = /(?:;| )name="(.*?)"(?:;|$)/.exec(disposition)?.[1] ?? ''
       const filename = /(?:;| )filename="(.*?)"(?:;|$)/.exec(disposition)?.[1]
       const contentType = headers.find(
-        v => v.name.toLowerCase() === 'Content-Type'.toLowerCase()
+        v => v.name.toLowerCase() === 'Content-Type'.toLowerCase(),
       )?.value
       partialInput =
         filename === undefined

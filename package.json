@@ -33,7 +33,7 @@
   },
   "main": "dist/index.js",
   "dependencies": {
-    "@anjianshi/utils": "^2.3.5",
+    "@anjianshi/utils": "^2.3.11",
     "chalk": "^5.3.0",
     "dayjs": "^1.11.13",
     "debug": "^4.3.7",
@@ -45,14 +45,14 @@
     "@anjianshi/presets-prettier": "^3.0.1",
     "@anjianshi/presets-typescript": "^3.2.2",
     "@types/debug": "^4.1.12",
-    "@types/lodash": "^4.17.9",
-    "@types/node": "^22.7.3",
+    "@types/lodash": "^4.17.10",
+    "@types/node": "^22.7.5",
     "@types/swagger-ui-dist": "^3.30.5",
     "concurrently": "^8.2.2",
     "nodemon": "^3.1.7",
     "rimraf": "^5.0.10",
     "tsc-alias": "^1.8.10",
-    "typescript": "^5.6.2"
+    "typescript": "^5.6.3"
   },
   "eslintIgnore": [],
   "prettier": "@anjianshi/presets-prettier/prettierrc"

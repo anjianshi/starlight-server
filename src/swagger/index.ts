@@ -18,7 +18,7 @@ import type {
   Operation,
 } from './specification.js'
 
-export * from './specification.js'
+export type * from './specification.js'
 
 /**
  * 把 OpenAPI 文档输出成 Swagger 页面
@@ -97,7 +97,7 @@ export class Swagger {
    * Swagger 内容包含 HTML、各类资源文件和接口数据 JSON，都通过此方法输出，此方法通过 filepath 判断要输出什么。
    */
   private readonly fileCache = new Map<string, string>()
-  async output(response: ResponseUtils, filepath: string = '') {
+  async output(response: ResponseUtils, filepath = '') {
     filepath = clearSlash(filepath)
 
     // 输出接口 JSON 数据
@@ -113,12 +113,12 @@ export class Swagger {
       if (filepath.endsWith('swagger-initializer.js')) {
         content = content.replace(
           'https://petstore.swagger.io/v2/swagger.json',
-          './api-swagger.json'
+          './api-swagger.json',
         )
         if (this.uiConfig) {
           content = content.replace(
             'SwaggerUIBundle({',
-            'SwaggerUIBundle({\n    ' + JSON.stringify(this.uiConfig).slice(1, -1) + ',\n'
+            'SwaggerUIBundle({\n    ' + JSON.stringify(this.uiConfig).slice(1, -1) + ',\n',
           )
         }
       }
