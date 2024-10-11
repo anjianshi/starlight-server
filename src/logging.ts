@@ -10,7 +10,7 @@ import {
 import debug from 'debug'
 
 export type { FileHandlerOptions }
-export { LogLevel }
+export { Logger, LogLevel }
 
 export interface LoggingOptions {
   /**
