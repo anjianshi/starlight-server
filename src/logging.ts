@@ -1,5 +1,5 @@
 /**
- * 实现日志记录
+ * 实现符合 HTTP 服务需要的日志记录
  */
 import { truthy, Logger, LogLevel, adaptDebugLib } from '@anjianshi/utils'
 import {
@@ -34,10 +34,14 @@ export interface LoggingOptions {
 
 export function getLogger(options: LoggingOptions = {}) {
   const logger = new Logger()
+  initLogger(logger, options)
+  return logger
+}
+
+export function initLogger(logger: Logger, options: LoggingOptions = {}) {
   logger.addHandler(new ConsoleHandler())
   if (options.level !== undefined) logger.setLevel(options.level)
   if (options.file) logger.addHandler(new FileHandler(options.file))
   if (truthy(options.debugLib))
     adaptDebugLib(debug, options.debugLib === true ? '*' : options.debugLib, logger)
-  return logger
 }
