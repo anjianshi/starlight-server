@@ -81,4 +81,16 @@ export class Request {
       return value
     }
   }
+
+  /**
+   * 尝试获取请求方的真实 IP；若失败，返回 null
+   * 方法来自：https://stackoverflow.com/a/8107922/2815178
+   */
+  getRealIP() {
+    return (
+      this.getHeader('x-forwarded-for', true) ||
+      (this.nodeRequest.socket.remoteAddress ?? '') ||
+      null
+    )
+  }
 }

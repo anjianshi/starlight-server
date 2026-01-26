@@ -285,16 +285,16 @@ export function makeNullable(schema: SchemaOrRef): Schema {
 }
 
 /**
- * 生成内容是 MaySuccess 格式的 object Schema
- * （对 MaySuccess 的定义见 @anjianshi/utils/lang/may-success.ts）
+ * 生成内容是 Result 格式的 object Schema
+ * （对 Result 的定义见 @anjianshi/utils/lang/result.ts）
  */
-interface MaySuccessOptions extends SchemaCommonOptions {
+interface ResultOptions extends SchemaCommonOptions {
   /** 成功时的数据格式 */
   data: SchemaOrRef
   /** 失败时的 data 字段格式（通常用不到） */
   failed?: SchemaOrRef
 }
-export function makeMaySuccess(options: SchemaOrRef | MaySuccessOptions): Schema {
+export function makeResult(options: SchemaOrRef | ResultOptions): Schema {
   const { data, failed, ...restOptions } =
     'data' in options ? options : { data: options, failed: undefined }
   const successSchema = makeObject({

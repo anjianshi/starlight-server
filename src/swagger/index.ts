@@ -89,7 +89,7 @@ export class Swagger {
   array = factories.makeArray
   object = factories.makeObject
   nullable = factories.makeNullable
-  maySuccess = factories.makeMaySuccess
+  result = factories.makeResult
   ref = factories.makeReference
 
   /**

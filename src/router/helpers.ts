@@ -1,4 +1,4 @@
-import { type MaySuccess, success, failed } from '@anjianshi/utils'
+import { type Result, success, failed, formatSuccess } from '@anjianshi/utils'
 import {
   getValidator,
   type Definition as ValidatorDefinition,
@@ -65,22 +65,35 @@ class ResponseUtilsHelpers {
   // 但因为 TypeScript 的限制，无法正确处理类方法的 never 返回值，所以作罢
   // https://github.com/microsoft/TypeScript/issues/36753
 
-  // 输出成功结果
-  success(data?: unknown) {
+  /**
+   * 输出成功结果
+   * 支持传入第二个方法来对数据内容进行格式化：
+   * response.success(formatSuccess(result, formatter)) => response.success(result, formatter)
+   */
+  success(data?: unknown, formatter?: <T, R>(data: T) => R): void {
     if (data instanceof Promise) throw new Error('不能用 promise 作为响应内容')
-    this.maySuccess(success(data))
+    this.result(success(data), formatter)
   }
 
-  // 输出失败结果
+  /**
+   * 输出失败结果
+   */
   failed(message: string, code?: string | number): void
   failed<T>(message: string, code: string | number | undefined, data: T): void
   failed<T>(message: string, code?: string | number, data?: T) {
     if (data instanceof Promise) throw new Error('不能用 promise 作为响应内容')
-    this.maySuccess(failed(message, code, data))
+    this.result(failed(message, code, data))
   }
 
-  // 输出 MaySuccess 对象
-  maySuccess(result: MaySuccess<unknown, unknown>): void {
+  /**
+   * 输出 Result 对象
+   * 支持传入第二个方法来对成功结果的数据内容进行格式化：
+   * response.result(formatSuccess(result, formatter)) => response.result(result, formatter)
+   */
+  result(result: Result<unknown, unknown>, formatterForSuccess?: <T, R>(data: T) => R): void {
+    if (formatterForSuccess) {
+      result = formatSuccess(result, formatterForSuccess)
+    }
     this.response.json(result)
   }
 }
