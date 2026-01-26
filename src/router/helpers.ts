@@ -70,9 +70,15 @@ class ResponseUtilsHelpers {
    * 支持传入第二个方法来对数据内容进行格式化：
    * response.success(formatSuccess(result, formatter)) => response.success(result, formatter)
    */
-  success(data?: unknown, formatter?: <T, R>(data: T) => R): void {
-    if (data instanceof Promise) throw new Error('不能用 promise 作为响应内容')
-    this.result(success(data), formatter)
+  success(): void
+  success<T>(data: T, formatter?: <R>(data: T) => R): void
+  success<T>(data?: T, formatter?: <R>(data: T) => R): void {
+    if (data === undefined) {
+      this.result(success())
+    } else {
+      if (data instanceof Promise) throw new Error('不能用 promise 作为响应内容')
+      this.result(success(data), formatter)
+    }
   }
 
   /**
@@ -90,11 +96,12 @@ class ResponseUtilsHelpers {
    * 支持传入第二个方法来对成功结果的数据内容进行格式化：
    * response.result(formatSuccess(result, formatter)) => response.result(result, formatter)
    */
-  result(result: Result<unknown, unknown>, formatterForSuccess?: <T, R>(data: T) => R): void {
+  result<T>(result: Result<T, unknown>, formatterForSuccess?: <R>(data: T) => R): void {
     if (formatterForSuccess) {
-      result = formatSuccess(result, formatterForSuccess)
+      this.response.json(formatSuccess(result, formatterForSuccess))
+    } else {
+      this.response.json(result)
     }
-    this.response.json(result)
   }
 }
 
