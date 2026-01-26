@@ -71,8 +71,8 @@ class ResponseUtilsHelpers {
    * response.success(formatSuccess(result, formatter)) => response.success(result, formatter)
    */
   success(): void
-  success<T>(data: T, formatter?: <R>(data: T) => R): void
-  success<T>(data?: T, formatter?: <R>(data: T) => R): void {
+  success<T>(data: T, formatter?: (data: T) => unknown): void
+  success<T>(data?: T, formatter?: (data: T) => unknown): void {
     if (data === undefined) {
       this.result(success())
     } else {
@@ -96,7 +96,7 @@ class ResponseUtilsHelpers {
    * 支持传入第二个方法来对成功结果的数据内容进行格式化：
    * response.result(formatSuccess(result, formatter)) => response.result(result, formatter)
    */
-  result<T>(result: Result<T, unknown>, formatterForSuccess?: <R>(data: T) => R): void {
+  result<T>(result: Result<T, unknown>, formatterForSuccess?: (data: T) => unknown): void {
     if (formatterForSuccess) {
       this.response.json(formatSuccess(result, formatterForSuccess))
     } else {
