@@ -20,7 +20,7 @@ export function isPreflight(request: Request | NodeRequest) {
  * 否则返回 null
  */
 export function getPreflightRequestMethod(request: Request | NodeRequest) {
-  return isPreflight(request) ? request.headers['access-control-request-method'] ?? '' : null
+  return isPreflight(request) ? (request.headers['access-control-request-method'] ?? '') : null
 }
 
 /**

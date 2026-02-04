@@ -128,6 +128,7 @@ export class Router {
         response.nodeResponse.end('')
         return
       }
+
       throw new HTTPError(405) // 有路径匹配的路由，但是没有 method 匹配的
     } else {
       const corsRule = matched.route.cors ?? this.cors

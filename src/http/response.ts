@@ -64,6 +64,7 @@ export class ResponseUtils {
   error(error: unknown) {
     if (error instanceof HTTPError) {
       this.nodeResponse.statusCode = error.status
+      this.nodeResponse.setHeader('Content-Type', 'text/plain; charset=UTF-8')
       this.nodeResponse.end(error.message)
     } else if (typeof error === 'number') {
       this.error(new HTTPError(error))
