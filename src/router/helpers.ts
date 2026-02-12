@@ -1,4 +1,4 @@
-import { type Result, success, failed, formatSuccess } from '@anjianshi/utils'
+import { type Result, type Failed, success, failed, formatSuccess } from '@anjianshi/utils'
 import {
   getValidator,
   type Definition as ValidatorDefinition,
@@ -84,9 +84,7 @@ class ResponseUtilsHelpers {
   /**
    * 输出失败结果
    */
-  failed(message: string, code?: string | number): void
-  failed<T>(message: string, code: string | number | undefined, data: T): void
-  failed<T>(message: string, code?: string | number, data?: T) {
+  failed(message: string, code?: unknown, data?: unknown) {
     if (data instanceof Promise) throw new Error('不能用 promise 作为响应内容')
     this.result(failed(message, code, data))
   }
@@ -96,7 +94,7 @@ class ResponseUtilsHelpers {
    * 支持传入第二个方法来对成功结果的数据内容进行格式化：
    * response.result(formatSuccess(result, formatter)) => response.result(result, formatter)
    */
-  result<T>(result: Result<T, unknown>, formatterForSuccess?: (data: T) => unknown): void {
+  result<T>(result: Result<T, Failed>, formatterForSuccess?: (data: T) => unknown) {
     if (formatterForSuccess) {
       this.response.json(formatSuccess(result, formatterForSuccess))
     } else {
