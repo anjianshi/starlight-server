@@ -2,6 +2,7 @@ import { type Result, type Failed, success, failed, formatSuccess } from '@anjia
 import {
   getValidator,
   type Definition as ValidatorDefinition,
+  type AllowedInputValue,
 } from '@anjianshi/utils/validators/index.js'
 import { HTTPError } from '@/index.js'
 import { type Request } from '@/http/request.js'
@@ -14,6 +15,9 @@ class RequestHelpers {
     readonly pathParameters: PathParameters,
   ) {}
 
+  /**
+   * 验证路径参数并返回经过格式化的数据
+   */
   validatePathParameters<const Definition extends Record<string, ValidatorDefinition>>(
     struct: Definition,
   ) {
@@ -25,12 +29,19 @@ class RequestHelpers {
     throw new HTTPError(400, result.message)
   }
 
+  /**
+   * 验证 query string 并返回经过格式化的数据
+   */
   validateQuery<const Definition extends Record<string, ValidatorDefinition>>(struct: Definition) {
     const result = getValidator({ type: 'struct', struct })('query', this.request.query)
     if (result.success) return result.data
     throw new HTTPError(400, result.message)
   }
 
+  /**
+   * 验证 Request Body 并返回经过格式化的数据。
+   * 要求 Request Body 内容是对象（键值对），使用时分别指定每个字段的验证规则。
+   */
   async validateBody<const Definition extends Record<string, ValidatorDefinition>>(
     struct: Definition,
   ) {
@@ -39,6 +50,18 @@ class RequestHelpers {
       throw new HTTPError(400, 'Invalid JSON body, should be an object.')
 
     const result = getValidator({ type: 'struct', struct })('body', body as Record<string, string>)
+    if (result.success) return result.data
+    throw new HTTPError(400, result.message)
+  }
+
+  /**
+   * 验证 Request Body 并返回经过格式化的数据。
+   * 与 validateBody() 不同，此方法直接指定整个 Body 的验证规则，因此支持非键值对的 Body，
+   * 或是对整个 Body 指定 one-of 等规则。
+   */
+  async validateBareBody<const T extends ValidatorDefinition>(definition: T) {
+    const body = await this.request.body.json()
+    const result = getValidator(definition)('body', body as AllowedInputValue)
     if (result.success) return result.data
     throw new HTTPError(400, result.message)
   }
