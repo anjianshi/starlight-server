@@ -97,7 +97,7 @@ export class Router {
    * -------------------------------
    */
   protected executor = async (basicContext: BasicContext, route: Route) => {
-    await route.handler(basicContext as Context)
+    await route.handler(basicContext)
   }
   setExecutor(executor: typeof this.executor) {
     this.executor = executor

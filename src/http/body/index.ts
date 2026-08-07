@@ -26,8 +26,7 @@ export class RequestBody {
 
   protected receiving?: Promise<Buffer | undefined>
   async buffer() {
-    if (!this.receiving)
-      this.receiving = receiveBody(this.nodeRequest, (this.options.limit ?? 1000) * 1000 * 1000)
+    this.receiving ??= receiveBody(this.nodeRequest, (this.options.limit ?? 1000) * 1000 * 1000)
     return this.receiving
   }
 

@@ -1,12 +1,12 @@
-import { type Result, type Failed, success, failed, formatSuccess } from '@anjianshi/utils'
+import { type Result, success, failed, formatSuccess } from '@anjianshi/utils'
 import {
   getValidator,
   type Definition as ValidatorDefinition,
   type AllowedInputValue,
 } from '@anjianshi/utils/validators/index.js'
-import { HTTPError } from '@/index.js'
 import { type Request } from '@/http/request.js'
 import { type ResponseUtils } from '@/http/response.js'
+import { HTTPError } from '@/index.js'
 import { type PathParameters } from './match-path.js'
 
 class RequestHelpers {
@@ -59,9 +59,11 @@ class RequestHelpers {
    * 与 validateBody() 不同，此方法直接指定整个 Body 的验证规则，因此支持非键值对的 Body，
    * 或是对整个 Body 指定 one-of 等规则。
    */
-  async validateBareBody<const T extends ValidatorDefinition>(definition: T) {
+  async validateBareBody<const Definition extends ValidatorDefinition>(definition: Definition) {
     const body = await this.request.body.json()
     const result = getValidator(definition)('body', body as AllowedInputValue)
+    // 因 validator 类型推断过于复杂，会报 “Type instantiation is excessively deep and possibly infinite” 问题，这里将其屏蔽
+    // @ts-expect-error 屏蔽类型推断问题
     if (result.success) return result.data
     throw new HTTPError(400, result.message)
   }
@@ -117,7 +119,7 @@ class ResponseUtilsHelpers {
    * 支持传入第二个方法来对成功结果的数据内容进行格式化：
    * response.result(formatSuccess(result, formatter)) => response.result(result, formatter)
    */
-  result<T>(result: Result<T, Failed>, formatterForSuccess?: (data: T) => unknown) {
+  result<T>(result: Result<T>, formatterForSuccess?: (data: T) => unknown) {
     if (formatterForSuccess) {
       this.response.json(formatSuccess(result, formatterForSuccess))
     } else {

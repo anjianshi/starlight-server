@@ -4,6 +4,6 @@
     "removeComments": false,
     "paths": {
       "@/*": ["./src/*"]
-    },
-  },
+    }
+  }
 }

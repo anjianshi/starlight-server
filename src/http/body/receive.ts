@@ -22,8 +22,8 @@ function callback(
   let contentLength: number | undefined
   if ('content-length' in nodeRequest.headers) {
     contentLength = parseInt(nodeRequest.headers['content-length'] ?? '', 10)
-    if (!isFinite(contentLength)) return void reject(new HTTPError(400, 'Invalid Content-Length'))
-    if (contentLength > limit) return void reject(new HTTPError(413))
+    if (!isFinite(contentLength)) return reject(new HTTPError(400, 'Invalid Content-Length'))
+    if (contentLength > limit) return reject(new HTTPError(413))
   }
 
   const parts: Buffer[] = []

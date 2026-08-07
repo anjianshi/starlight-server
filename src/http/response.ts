@@ -24,7 +24,9 @@ export class ResponseUtils {
     if (items.length === 1 && typeof items[0] === 'object') {
       items = Object.entries(items[0] as Record<string, string>)
     }
-    void (items as [string, string][]).forEach(([name, value]) => this.header(name, value))
+    for (const [name, value] of items as [string, string][]) {
+      this.header(name, value)
+    }
   }
 
   text(content: string | Buffer) {

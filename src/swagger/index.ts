@@ -101,13 +101,13 @@ export class Swagger {
     filepath = clearSlash(filepath)
 
     // 输出接口 JSON 数据
-    if (filepath === 'api-swagger.json') return void response.json(this.document)
+    if (filepath === 'api-swagger.json') return response.json(this.document)
 
     // 输出 Swagger 静态文件内容
     const swaggerDir = getAbsoluteFSPath()
     const abspath = path.join(swaggerDir, filepath || 'index.html')
     if (!this.fileCache.has(abspath)) {
-      if (!(await isFileExists(abspath))) return void response.error(404)
+      if (!(await isFileExists(abspath))) return response.error(404)
 
       let content = (await fsPromise.readFile(abspath)).toString()
       if (filepath.endsWith('swagger-initializer.js')) {

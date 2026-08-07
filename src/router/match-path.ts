@@ -63,7 +63,7 @@ export function matchPath(patterns: string[], path: string) {
       const match = regexp.exec(path)
       if (!match) return null
       const parameters = formatMatchParameters(nodes, [...match].slice(1))
-      return { index, pattern, parameters } as MatchResult
+      return { index, pattern, parameters }
     })
     .filter((matched): matched is Exclude<typeof matched, null> => matched !== null)
 }

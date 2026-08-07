@@ -67,7 +67,7 @@ export class Request {
    * 若 loose 为 true，固定返回一个字符串。有多个值时返回第一个，header 不存在时返回空字符串。
    */
   getHeader<const K extends string>(key: K, loose?: false): http.IncomingHttpHeaders[Lowercase<K>]
-  getHeader<const K extends string>(key: K, loose: true): string
+  getHeader(key: string, loose: true): string
   getHeader<const K extends string>(
     key: K,
     loose?: boolean,
