@@ -1,6 +1,7 @@
 {
   "extends": ["./node_modules/@anjianshi/presets-typescript/tsconfig-build.json"],
   "compilerOptions": {
+    "types": ["node"],
     "removeComments": false,
     "paths": {
       "@/*": ["./src/*"]
