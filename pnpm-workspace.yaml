@@ -1,0 +1,5 @@
+allowBuilds:
+  '@scarf/scarf': true
+  unrs-resolver: true
+minimumReleaseAgeExclude:
+  - '@anjianshi/utils@4.0.0'

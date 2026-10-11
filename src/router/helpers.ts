@@ -1,4 +1,4 @@
-import { type Result, success, failed, formatSuccess } from '@anjianshi/utils'
+import { type Result, success, failure, formatSuccess } from '@anjianshi/utils'
 import {
   getValidator,
   type Definition as ValidatorDefinition,
@@ -109,9 +109,9 @@ class ResponseUtilsHelpers {
   /**
    * 输出失败结果
    */
-  failed(message: string, code?: unknown, data?: unknown) {
+  failure(message: string, code?: unknown, data?: unknown) {
     if (data instanceof Promise) throw new Error('不能用 promise 作为响应内容')
-    this.result(failed(message, code, data))
+    this.result(failure(message, code, data))
   }
 
   /**

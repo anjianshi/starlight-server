@@ -5,4 +5,4 @@ export {
   getValidator,
   type Definition as ValidatorDefinition,
 } from '@anjianshi/utils/validators/index.js'
-export * from '@anjianshi/utils/lang/result.js'
+export * from '@anjianshi/utils/result.js'

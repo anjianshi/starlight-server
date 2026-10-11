@@ -286,17 +286,17 @@ export function makeNullable(schema: SchemaOrRef): Schema {
 
 /**
  * 生成内容是 Result 格式的 object Schema
- * （对 Result 的定义见 @anjianshi/utils/lang/result.ts）
+ * （对 Result 的定义见 @anjianshi/utils/result.ts）
  */
 interface ResultOptions extends SchemaCommonOptions {
   /** 成功时的数据格式 */
   data: SchemaOrRef
   /** 失败时的 data 字段格式（通常用不到） */
-  failed?: SchemaOrRef
+  failure?: SchemaOrRef
 }
 export function makeResult(options: SchemaOrRef | ResultOptions): Schema {
-  const { data, failed, ...restOptions } =
-    'data' in options ? options : { data: options, failed: undefined }
+  const { data, failure, ...restOptions } =
+    'data' in options ? options : { data: options, failure: undefined }
   const successSchema = makeObject({
     title: '成功结果',
     properties: {
@@ -304,18 +304,18 @@ export function makeResult(options: SchemaOrRef | ResultOptions): Schema {
       data,
     },
   })
-  const failedSchema = makeObject({
+  const failureSchema = makeObject({
     title: '失败结果',
     properties: {
       success: makeBoolean({ enum: [false] }),
       message: makeString(),
       code: { oneOf: [makeString(), makeNumber()] },
-      ...(failed ? { data: failed } : {}),
+      ...(failure ? { data: failure } : {}),
     },
   })
   return {
     ...pickSchemaCommon(restOptions),
-    oneOf: [successSchema, failedSchema],
+    oneOf: [successSchema, failureSchema],
   }
 }
 

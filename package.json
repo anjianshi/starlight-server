@@ -1,6 +1,6 @@
 {
   "name": "starlight-server",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "description": "Simple But Powerful Node.js HTTP Server",
   "type": "module",
   "scripts": {
@@ -33,26 +33,26 @@
   },
   "main": "dist/index.js",
   "dependencies": {
-    "@anjianshi/utils": "^3.10.0",
-    "chalk": "^5.4.1",
-    "dayjs": "^1.11.13",
-    "debug": "^4.3.7",
+    "@anjianshi/utils": "^4.0.0",
+    "chalk": "^5.6.2",
+    "dayjs": "^1.11.23",
+    "debug": "^4.4.3",
     "lodash": "^4.18.1",
-    "swagger-ui-dist": "^5.17.14"
+    "swagger-ui-dist": "^5.33.1"
   },
   "devDependencies": {
     "@anjianshi/presets-eslint-node": "^6.3.3",
     "@anjianshi/presets-prettier": "^3.2.0",
-    "@anjianshi/presets-typescript": "^3.4.0",
-    "@types/debug": "^4.1.12",
-    "@types/lodash": "^4.17.10",
-    "@types/node": "^22.7.5",
-    "@types/swagger-ui-dist": "^3.30.5",
+    "@anjianshi/presets-typescript": "^3.4.1",
+    "@types/debug": "^4.1.13",
+    "@types/lodash": "^4.17.26",
+    "@types/node": "^22.20.5",
+    "@types/swagger-ui-dist": "^3.30.6",
     "concurrently": "^8.2.2",
-    "eslint": "^10.8.0",
-    "nodemon": "^3.1.7",
+    "eslint": "^10.12.0",
+    "nodemon": "^3.1.14",
     "rimraf": "^5.0.10",
-    "tsc-alias": "^1.9.1",
+    "tsc-alias": "^1.9.7",
     "typescript": "^6.0.3"
   },
   "eslintIgnore": [],
