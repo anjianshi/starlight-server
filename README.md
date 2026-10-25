@@ -1,5 +1,8 @@
 Starlight Server: 功能简约、结构清晰的 HTTP 服务框架
 
+此项目已并入 @stdex 系列包，重命名为 @stdex/server。  
+新项目地址：https://github.com/anjianshi/stdex-packages/tree/master/server
+
 # 功能模块
 
 ## http
